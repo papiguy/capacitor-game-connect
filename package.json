@@ -1,5 +1,5 @@
 {
-  "name": "@openforge/capacitor-game-connect",
+  "name": "@ni2khanna/capacitor-game-connect",
   "version": "7.0.0",
   "description": "Use Game Services and Game Connect",
   "main": "dist/plugin.cjs.js",
@@ -17,16 +17,19 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/papiguy/capacitor-game-connect.git"
+    "url": "git+https://github.com/ni2khanna/capacitor-game-connect.git"
   },
   "bugs": {
-    "url": "https://github.com/papiguy/capacitor-game-connect/issues"
+    "url": "https://github.com/ni2khanna/capacitor-game-connect/issues"
   },
   "keywords": [
     "capacitor",
     "plugin",
     "native"
   ],
+  "publishConfig": {
+  "access": "public"
+},
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
     "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS && cd ..",
