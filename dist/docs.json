@@ -116,6 +116,32 @@
           "PlayerScore"
         ],
         "slug": "getusertotalscore"
+      },
+      {
+        "name": "getGameCenterCredential",
+        "signature": "() => Promise<{ credential: string; providerId: string; }>",
+        "parameters": [],
+        "returns": "Promise<{ credential: string; providerId: string; }>",
+        "tags": [],
+        "docs": "* Method to get Game Center authentication credential",
+        "complexTypes": [],
+        "slug": "getgamecentercredential"
+      },
+      {
+        "name": "getGooglePlayCredential",
+        "signature": "(options: { serverClientId: string; }) => Promise<{ credential: string; providerId: string; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ serverClientId: string; }"
+          }
+        ],
+        "returns": "Promise<{ credential: string; providerId: string; }>",
+        "tags": [],
+        "docs": "* Method to get Google Play Games authentication credential",
+        "complexTypes": [],
+        "slug": "getgoogleplaycredential"
       }
     ],
     "properties": []

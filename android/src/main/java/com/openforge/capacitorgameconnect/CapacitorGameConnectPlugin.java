@@ -1,4 +1,4 @@
-package com.openforge.capacitorgameconnect;
+xpackage com.openforge.capacitorgameconnect;
 
 import android.content.Intent;
 
@@ -97,5 +97,15 @@ public class CapacitorGameConnectPlugin extends Plugin {
     @PluginMethod
     public void getUserTotalScore(PluginCall call) {
         implementation.getUserTotalScore(call);
+    }
+
+    @PluginMethod
+    public void getGameCenterCredential(PluginCall call) {
+        call.reject("Game Center not available on Android");
+    }
+
+    @PluginMethod
+    public void getGooglePlayCredential(PluginCall call) {
+        implementation.getGooglePlayCredential(call);
     }
 }

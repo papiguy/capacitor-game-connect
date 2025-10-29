@@ -55,4 +55,12 @@ public class CapacitorGameConnectPlugin: CAPPlugin {
     @objc func getUserTotalScore(_ call: CAPPluginCall) {
         implementation.getUserTotalScore(call)
     }
+
+    @objc func getGameCenterCredential(_ call: CAPPluginCall) {
+        implementation.getGameCenterCredential(call)
+    }
+
+    @objc func getGooglePlayCredential(_ call: CAPPluginCall) {
+        call.reject("Google Play Games not available on iOS")
+    }
 }

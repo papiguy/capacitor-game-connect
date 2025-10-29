@@ -58,4 +58,24 @@ export declare class CapacitorGameConnectWeb extends WebPlugin implements Capaci
     getUserTotalScore(options: {
         leaderboardID: string;
     }): Promise<PlayerScore>;
+    /**
+     * * Method to get Game Center authentication credential (Web not supported)
+     *
+     * @returns Promise
+     */
+    getGameCenterCredential(): Promise<{
+        credential: string;
+        providerId: string;
+    }>;
+    /**
+     * * Method to get Google Play Games authentication credential (Web not supported)
+     *
+     * @returns Promise
+     */
+    getGooglePlayCredential(options: {
+        serverClientId: string;
+    }): Promise<{
+        credential: string;
+        providerId: string;
+    }>;
 }

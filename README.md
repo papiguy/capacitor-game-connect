@@ -151,6 +151,8 @@ Before use the `Achievement Methods` of the plugin, you need to setup your Achie
 * [`unlockAchievement(...)`](#unlockachievement)
 * [`incrementAchievementProgress(...)`](#incrementachievementprogress)
 * [`getUserTotalScore(...)`](#getusertotalscore)
+* [`getGameCenterCredential()`](#getgamecentercredential)
+* [`getGooglePlayCredential(...)`](#getgoogleplaycredential)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -255,6 +257,36 @@ getUserTotalScore(options: { leaderboardID: string; }) => Promise<PlayerScore>
 | **`options`** | <code>{ leaderboardID: string; }</code> | : string }  |
 
 **Returns:** <code>Promise&lt;<a href="#playerscore">PlayerScore</a>&gt;</code>
+
+--------------------
+
+
+### getGameCenterCredential()
+
+```typescript
+getGameCenterCredential() => Promise<{ credential: string; providerId: string; }>
+```
+
+* Method to get Game Center authentication credential
+
+**Returns:** <code>Promise&lt;{ credential: string; providerId: string; }&gt;</code>
+
+--------------------
+
+
+### getGooglePlayCredential(...)
+
+```typescript
+getGooglePlayCredential(options: { serverClientId: string; }) => Promise<{ credential: string; providerId: string; }>
+```
+
+* Method to get Google Play Games authentication credential
+
+| Param         | Type                                     |
+| ------------- | ---------------------------------------- |
+| **`options`** | <code>{ serverClientId: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ credential: string; providerId: string; }&gt;</code>
 
 --------------------
 

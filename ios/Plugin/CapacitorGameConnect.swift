@@ -1,6 +1,7 @@
 import Foundation
 import GameKit
 import Capacitor
+import AuthenticationServices
 
 @objc public class CapacitorGameConnect: NSObject, GKGameCenterControllerDelegate {
     public func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
@@ -168,6 +169,47 @@ import Capacitor
                 "player_score": userTotalScore
             ]
             call.resolve(result as PluginCallResultData)
+        }
+    }
+
+    @objc func getGameCenterCredential(_ call: CAPPluginCall) {
+        guard GKLocalPlayer.local.isAuthenticated else {
+            call.reject("Player is not authenticated with Game Center")
+            return
+        }
+
+        // Get the Game Center authentication credential for Firebase
+        GKLocalPlayer.local.fetchItemsForIdentityVerificationSignature { (publicKeyUrl, signature, salt, timestamp, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    call.reject("Failed to get Game Center credential: \(error.localizedDescription)")
+                    return
+                }
+
+                guard let publicKeyUrl = publicKeyUrl,
+                      let signature = signature,
+                      let salt = salt else {
+                    call.reject("Failed to get Game Center credential data")
+                    return
+                }
+
+                // Create credential data compatible with Firebase GameCenterAuthProvider
+                let credentialData: [String: Any] = [
+                    "playerID": GKLocalPlayer.local.gamePlayerID ?? "",
+                    "publicKeyURL": publicKeyUrl.absoluteString,
+                    "signature": signature.base64EncodedString(),
+                    "salt": salt.base64EncodedString(),
+                    "timestamp": timestamp,
+                    "displayName": GKLocalPlayer.local.displayName ?? ""
+                ]
+
+                let result: [String: Any] = [
+                    "credential": credentialData,
+                    "providerId": "gc.apple.com"
+                ]
+
+                call.resolve(result as PluginCallResultData)
+            }
         }
     }
 }

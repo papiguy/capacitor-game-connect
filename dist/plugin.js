@@ -68,6 +68,24 @@ var capacitorCapacitorGameConnect = (function (exports, core) {
             console.info('getUserTotalScore function has been called', options);
             return Promise.resolve({});
         }
+        /**
+         * * Method to get Game Center authentication credential (Web not supported)
+         *
+         * @returns Promise
+         */
+        async getGameCenterCredential() {
+            console.info('getGameCenterCredential function has been called');
+            return Promise.reject('Game Center authentication not supported on web');
+        }
+        /**
+         * * Method to get Google Play Games authentication credential (Web not supported)
+         *
+         * @returns Promise
+         */
+        async getGooglePlayCredential(options) {
+            console.info('getGooglePlayCredential function has been called', options);
+            return Promise.reject('Google Play Games authentication not supported on web');
+        }
     }
 
     var web = /*#__PURE__*/Object.freeze({

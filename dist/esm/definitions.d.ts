@@ -52,4 +52,22 @@ export interface CapacitorGameConnectPlugin {
     getUserTotalScore(options: {
         leaderboardID: string;
     }): Promise<PlayerScore>;
+    /**
+     * * Method to get Game Center authentication credential
+     *
+     */
+    getGameCenterCredential(): Promise<{
+        credential: string;
+        providerId: string;
+    }>;
+    /**
+     * * Method to get Google Play Games authentication credential
+     *
+     */
+    getGooglePlayCredential(options: {
+        serverClientId: string;
+    }): Promise<{
+        credential: string;
+        providerId: string;
+    }>;
 }

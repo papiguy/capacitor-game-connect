@@ -11,6 +11,7 @@ import com.getcapacitor.PluginCall;
 import com.google.android.gms.games.GamesSignInClient;
 import com.google.android.gms.games.PlayGames;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
+import com.google.android.gms.games.AuthenticationResult;
 
 public class CapacitorGameConnect {
 
@@ -165,6 +166,61 @@ public class CapacitorGameConnect {
             .addOnFailureListener(e -> {
                 Log.e(TAG, "Error getting player score", e);
                 call.reject("Error getting player score: " + e.getMessage());
+            });
+    }
+
+    /**
+     * * Method to get Google Play Games authentication credential for Firebase
+     *
+     * @param call as PluginCall
+     */
+    public void getGooglePlayCredential(PluginCall call) {
+        Log.i(TAG, "getGooglePlayCredential has been called");
+
+        GamesSignInClient gamesSignInClient = PlayGames.getGamesSignInClient(this.activity);
+
+        gamesSignInClient
+            .isAuthenticated()
+            .addOnCompleteListener(
+                isAuthenticatedTask -> {
+                    boolean isAuthenticated = (isAuthenticatedTask.isSuccessful() && isAuthenticatedTask.getResult().isAuthenticated());
+
+                    if (!isAuthenticated) {
+                        call.reject("User is not authenticated with Google Play Games");
+                        return;
+                    }
+
+                    // Request server auth code for Firebase
+                    String serverClientId = call.getString("serverClientId", "");
+                    if (serverClientId.isEmpty()) {
+                        call.reject("serverClientId is required for Google Play Games credential");
+                        return;
+                    }
+
+                    gamesSignInClient
+                        .requestServerSideAccess(serverClientId, /* forceRefreshToken */ false)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                String serverAuthCode = task.getResult();
+
+                                JSObject credentialData = new JSObject();
+                                credentialData.put("serverAuthCode", serverAuthCode);
+
+                                JSObject result = new JSObject();
+                                result.put("credential", credentialData);
+                                result.put("providerId", "playgames.google.com");
+
+                                call.resolve(result);
+                            } else {
+                                Log.e(TAG, "Failed to get server auth code", task.getException());
+                                call.reject("Failed to get Google Play Games credential: " + task.getException().getMessage());
+                            }
+                        });
+                }
+            )
+            .addOnFailureListener(e -> {
+                Log.e(TAG, "Error checking authentication status", e);
+                call.reject("Error checking authentication status: " + e.getMessage());
             });
     }
 }
