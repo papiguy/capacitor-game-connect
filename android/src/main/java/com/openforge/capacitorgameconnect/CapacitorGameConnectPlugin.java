@@ -1,4 +1,4 @@
-xpackage com.openforge.capacitorgameconnect;
+package com.openforge.capacitorgameconnect;
 
 import android.content.Intent;
 
