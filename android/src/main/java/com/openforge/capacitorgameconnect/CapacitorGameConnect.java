@@ -43,14 +43,20 @@ public class CapacitorGameConnect {
                         resultCallback.success();
                     } else {
                         gamesSignInClient
-                            .signIn()
-                            .addOnCompleteListener(
-                                data -> {
-                                    Log.i(TAG, "Sign-in completed successful");
-                                    resultCallback.success();
-                                }
-                            )
-                            .addOnFailureListener(e -> resultCallback.error(e.getMessage()));
+                                .signIn()
+                                .addOnSuccessListener(signInResponse -> {
+                                    if (signInResponse.isAuthenticated()) {
+                                        Log.i(TAG, "Sign-in completed successful");
+                                        resultCallback.success();
+                                    } else {
+                                        Log.i(TAG, "Sign-in failed or cancelled");
+                                        resultCallback.error("Sign-in failed or cancelled");
+                                    }
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.i(TAG, "Sign-in failed with exception", e);
+                                    resultCallback.error(e.getMessage());
+                                });
                     }
                 }
             )
